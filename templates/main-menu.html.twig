@@ -1,0 +1,22 @@
+<i class="material-icons main-menu-icon md-36">
+    reorder
+</i>
+<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="/" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="material-icons pr-2">home</i>Strona główna</a>
+    <a class="nav-link" id="v-pills-stockin-tab" data-toggle="pill" href="/in" role="tab" aria-controls="v-pills-in" aria-selected="true"><i class="material-icons">flight_land</i>Przyjmij towar</a>
+    <a class="nav-link" id="v-pills-stockout-tab" data-toggle="pill" href="/out" role="tab" aria-controls="v-pills-out" aria-selected="false"><i class="material-icons pr-2">flight_takeoff</i>Wydaj towar</a>
+    <a class="nav-link" id="v-pills-find-tab" data-toggle="pill" href="/findplace" role="tab" aria-controls="v-pills-find" aria-selected="true"><i class="material-icons pr-2">search</i>Znajdź miejsce</a>
+    <a class="nav-link" id="v-pills-switch-tab" data-toggle="pill" href="/replace" role="tab" aria-controls="v-pills-switch" aria-selected="false"><i class="material-icons pr-2">cached</i>Zamień miejscami</a>
+    {#<a class="nav-link" id="v-pills-edit-tab" data-toggle="pill" href="/stock/edit" role="tab" aria-controls="v-pills-edit" aria-selected="false"><i class="material-icons pr-2">create</i>Edytuj produkt</a>#}
+    <a class="nav-link" id="v-pills-stock-tab" data-toggle="pill" href="/products" role="tab" aria-controls="v-pills-stock" aria-selected="false"><i class="material-icons pr-2">inventory</i>Stan magazynowy</a>
+    <a class="nav-link" id="v-pills-contributors-tab" data-toggle="pill" href="/contributors" role="tab" aria-controls="v-pills-contributors" aria-selected="false"><i class="material-icons pr-2">supervised_user_circle</i>Tworcy aplikacji</a>
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a class="nav-link" id="v-pills-admin-tab" data-toggle="pill" href="/login" role="tab" aria-controls="v-pills-admin" aria-selected="false"><i class="material-icons pr-2">group</i>Zaloguj</a>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="nav-link" id="v-pills-admin-tab" data-toggle="pill" href="/admin" role="tab" aria-controls="v-pills-admin" aria-selected="false"><i class="material-icons pr-2">create</i>Administracja</a>
+    {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <a class="nav-link" href="/logout" role="tab"><i class="material-icons pr-2">exit_to_app</i>Wyloguj</a>
+    {% endif %}
+</div>

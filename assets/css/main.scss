@@ -1,0 +1,38 @@
+$first_color: #191919;
+$second_color: #131313;
+$third_color: #303030;
+$fourth_color: #272727;;
+$fifth_color: #B1A296;
+
+html, body {
+  height: 100%;
+}
+body {
+  font-family: din-medium, sans-serif;
+  background-color: $first_color;
+  margin-right: 20px;
+  .row {
+    .row-main {
+      min-height: 100%;
+    }
+  }
+  .col-main-menu {
+    min-height: 100%;
+    background-color: $second_color;
+    .nav-link {
+      color: $third_color;
+
+      &.active {
+        background-color: $first_color;
+      }
+    }
+  }
+}
+.page-item.active .page-link {
+  color: #fff;
+  background-color: $second_color;
+  border-color: $second_color;
+}
+.form-control{
+  background-color: $third_color;
+}

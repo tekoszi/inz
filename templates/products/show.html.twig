@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product display{% endblock %}
+
+{% block body %}
+    <h1>Product</h1>
+
+    <table class="table table-dark">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <th>Barcode</th>
+                <td>{{ product.barcode }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ product.name }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ product.price }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ product.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Warehouse_id</th>
+                <td>{{ product.warehouseId }}</td>
+            </tr>
+            <tr>
+                <th>Row_id</th>
+                <td>{{ product.rowId }}</td>
+            </tr>
+            <tr>
+                <th>Rack_id</th>
+                <td>{{ product.rackId }}</td>
+            </tr>
+            <tr>
+                <th>Shelf_id</th>
+                <td>{{ product.shelfId }}</td>
+            </tr>
+        </tbody>
+    </table>
+        <row>
+            <a href="{{ path('products_index') }}"><button type="button" class="btn btn-dark mb-1">Back to list</button></a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('products_edit', {'id': product.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>
+            {% endif %}
+            {{ include('products/_delete_form.html.twig') }}
+        </row>
+
+{% endblock %}

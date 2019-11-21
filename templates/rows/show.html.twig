@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rows{% endblock %}
+
+{% block body %}
+    <h1>Rows</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ row.id }}</td>
+            </tr>
+            <tr>
+                <th>Warehouse_id</th>
+                <td>{{ row.warehouseId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('rows_index') }}">back to list</a>
+
+    <a href="{{ path('rows_edit', {'id': row.id}) }}">edit</a>
+
+    {{ include('rows/_delete_form.html.twig') }}
+{% endblock %}

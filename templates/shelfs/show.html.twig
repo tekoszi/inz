@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Shelfs{% endblock %}
+
+{% block body %}
+    <h1>Shelfs</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ shelf.id }}</td>
+            </tr>
+            <tr>
+                <th>Rack_id</th>
+                <td>{{ shelf.rackId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('shelfs_index') }}">back to list</a>
+
+    <a href="{{ path('shelfs_edit', {'id': shelf.id}) }}">edit</a>
+
+    {{ include('shelfs/_delete_form.html.twig') }}
+{% endblock %}
