@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FormController!{% endblock %}
+
+{% block body %}
+    <h1>Przyjmij towar</h1>
+    <div>Przyjmowanie towaru:</div>
+    <div class="col-4">
+        {{ form_start(product_form, {'attr': {'id': 'custom_id'}}) }}
+            {{ form(product_form) }}
+        {{ form_end(product_form) }}
+    </div>
+{% endblock %}
