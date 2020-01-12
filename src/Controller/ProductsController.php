@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Products;
+use App\Entity\History;
 use App\Form\ProductsType;
 use App\Repository\ProductsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,8 +40,17 @@ class ProductsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $history = new History();
+            $history -> setOperationType('Dodano towar');
+            $history -> setProductName($product->getName());
+            $s = date('d/m/Y');
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
+            $history -> setOperationDate($date);
+            $history -> setProductQuantity($product->getQuantity());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($product);
+            $entityManager->persist($history);
             $entityManager->flush();
 
             return $this->redirectToRoute('products_index');
@@ -92,11 +102,22 @@ class ProductsController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
+            $history = new History();
+            $history -> setOperationType('Usunieto towar');
+            $history -> setProductName($product->getName());
+            $s = date('d/m/Y');
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
+            $history -> setOperationDate($date);
+            $history -> setProductQuantity($product->getQuantity());
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($history);
             $entityManager->remove($product);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('products_index');
     }
+
+
 }

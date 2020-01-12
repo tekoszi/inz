@@ -6,6 +6,7 @@ $fifth_color: #B1A296;
 
 html, body {
   height: 100%;
+  color: white;
 }
 body {
   font-family: din-medium, sans-serif;
@@ -20,7 +21,7 @@ body {
     min-height: 100%;
     background-color: $second_color;
     .nav-link {
-      color: $third_color;
+      color: white;
 
       &.active {
         background-color: $first_color;

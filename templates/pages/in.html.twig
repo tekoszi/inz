@@ -1,4 +1,13 @@
 <div class="out-page">
     <h1>Przyjmij towar</h1>
-    <div>Przyjmowanie towaru</div>
+    <div>Przyjmowanie towaru:</div>
+    <div class="col-4">
+        <div>
+            <h1>Create new product</h1>
+
+            {{ include('form/index.html.twig') }}
+
+            <a href="{{ path('products_index') }}"><button type="button" class="btn btn-dark mb-1">Back to list</button></a>
+        </div>
+    </div>
 </div>

@@ -3,6 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Products;
+use App\Entity\Warehouses;
+use App\Entity\Rows;
+use App\Entity\Racks;
+use App\Entity\Shelfs;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -18,7 +22,23 @@ class ProductsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Products::class);
     }
+    // odczysttywać shelfy itp. bez produktów i porównywać zmienne miedzy controlerami.
 
+    /**
+     * @return Shelfs[]
+     */
+    public function findEmptyShelf($price): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s
+            FROM App\Entity\Shelfs s'
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
     // /**
     //  * @return Products[] Returns an array of Products objects
     //  */

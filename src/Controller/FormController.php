@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Products;
+use App\Entity\Warehouses;
 use App\Entity\History;
 use App\Form\ProductType;
 # use http\Env\Request;
@@ -17,13 +18,25 @@ class FormController extends AbstractController
      * @Route("/in", name="form")
      */
     # @route było '/form'
+    #'action' => $this->generateUrl('form') to było w create form
     public function index(Request $request)
     {
 
+        $warehousesRepository = $this->getDoctrine()
+            ->getRepository(Warehouses::class);
+
+        $freespace = $warehousesRepository->findempty();
+
+        foreach ($freespace as &$value) {
+            var_dump($value['shelf_id']);
+        }
+
         $product = new Products();
-        $form = $this->createForm(ProductType::class, $product, [
-            'action' => $this->generateUrl('form'),
-        ]);
+        $form = $this->createForm(ProductType::class, $product,array(
+            'attr' =>[
+                'freespace' => 'freespace'
+                ]
+        ));
 
         $form->handleRequest($request);
          if ($form -> isSubmitted() && $form ->isValid())

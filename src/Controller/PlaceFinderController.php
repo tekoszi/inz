@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Products;
+use App\Entity\Warehouses;
 use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -24,10 +26,15 @@ class PlaceFinderController extends AbstractController
     public function index(Request $request, \Swift_Mailer $mailer)
     {
 
+        $warehousesRepository = $this->getDoctrine()
+            ->getRepository(Warehouses::class);
+
+        $freespace = $warehousesRepository->findempty();
 
 
         return $this->render('base.html.twig', [
             'selected_view' => 'pages/findPlace.html.twig',
+            'freespace' => $freespace
 
         ]);
     }

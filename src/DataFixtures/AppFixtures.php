@@ -51,7 +51,7 @@ class AppFixtures extends Fixture
             $order->setUserId(mt_rand(1, 20));
             $input = array("Zrealizowane", "W trakcie realizacji", "Odwołane");
             $order->setStatus($input[mt_rand(0, 2)]);
-            $s = '08/11/2019';
+            $s = date('d/m/Y');
             $date = date_create_from_format('d/m/Y', $s);
             $date->getTimestamp();
             $order->setCreatedAt($date);
@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
             }
         }
         // create 30 products!
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 75; $i++) {
             $product = new Products();
             $product->setName('product '.($i+1));
             $product->setPrice(mt_rand(1000, 10000)/100);
@@ -88,7 +88,7 @@ class AppFixtures extends Fixture
             $product->setWarehouseId(1);
             $product->setRowId(mt_rand(1, 3));
             $product->setRackId(mt_rand(1, 5));
-            $product->setShelfId(mt_rand(1, 10));
+            $product->setShelfId($i+1);
             $manager->persist($product);
         }
 
@@ -98,6 +98,7 @@ class AppFixtures extends Fixture
             $orderitem->setOrderId(mt_rand(1, 30));
             $orderitem->setProductId(mt_rand(1, 30));
             $orderitem->setQuantity(mt_rand(1, 10));
+            $orderitem->setProductPrice(mt_rand(1, 100));
             $manager->persist($orderitem);
         }
 

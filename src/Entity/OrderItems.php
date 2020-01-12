@@ -35,6 +35,11 @@ class OrderItems
      */
     private $quantity;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $product_price;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +77,18 @@ class OrderItems
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getProductPrice(): ?int
+    {
+        return $this->product_price;
+    }
+
+    public function setProductPrice(int $product_price): self
+    {
+        $this->product_price = $product_price;
 
         return $this;
     }
