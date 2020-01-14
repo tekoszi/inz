@@ -1,13 +1,10 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Edit Product{% endblock %}
-
-{% block body %}
-    <h1>Edit Product</h1>
-
-    {{ include('products/_form.html.twig') }}
-
-    <a href="{{ path('products_index') }}"><button type="button" class="btn btn-dark mb-1">Back to list</button></a>
-
-    {{ include('products/_delete_form.html.twig') }}
-{% endblock %}
+<div class="out-page">
+    <h1>Wydaj towar</h1>
+    <div>Wydawanie towaru</div>
+    <div class="col-4">
+        {% form_theme form 'bootstrap_4_layout.html.twig' %}
+        {{ form_start(form) }}
+            {{ form(form) }}
+        {{ form_end(form) }}
+    </div>
+</div>
