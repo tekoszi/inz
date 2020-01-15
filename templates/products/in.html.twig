@@ -1,13 +1,26 @@
 <div class="out-page">
-    <h1>Przyjmij towar</h1>
-    <div>Przyjmowanie towaru:</div>
+    <h1>Receive goods</h1>
     <div class="col-4">
         <div>
-            <h1>Create new product</h1>
-
-            {{ include('form/index.html.twig') }}
-
-            <a href="{{ path('products_index') }}"><button type="button" class="btn btn-dark mb-1">Back to list</button></a>
+            <br />
+        </div>
+        <div>
+            <div>
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('failure') %}
+                    <div class="alert alert-danger">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+                {% form_theme form 'bootstrap_4_layout.html.twig' %}
+                {{ form_start(form) }}
+                {{ form(form) }}
+                {{ form_end(form) }}
+            </div>
         </div>
     </div>
 </div>

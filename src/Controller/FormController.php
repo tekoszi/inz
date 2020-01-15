@@ -22,45 +22,10 @@ class FormController extends AbstractController
     public function index(Request $request)
     {
 
-        $warehousesRepository = $this->getDoctrine()
-            ->getRepository(Warehouses::class);
 
-        $freespace = $warehousesRepository->findempty();
-
-        foreach ($freespace as &$value) {
-            var_dump($value['shelf_id']);
-        }
-
-        $product = new Products();
-        $form = $this->createForm(ProductType::class, $product,array(
-            'attr' =>[
-                'freespace' => 'freespace'
-                ]
-        ));
-
-        $form->handleRequest($request);
-         if ($form -> isSubmitted() && $form ->isValid())
-         {
-             $history = new History();
-             $history -> setOperationType('Przyjęcie');
-             $history -> setProductName($product->getName());
-             $s = date('d/m/Y');
-             $date = date_create_from_format('d/m/Y', $s);
-             $date->getTimestamp();
-             $history -> setOperationDate($date);
-             $history -> setProductQuantity($product->getQuantity());
-             var_dump($product);
-             // Save to DB!
-             $em = $this->getDoctrine()->getManager();
-             $em ->persist($product);
-             $em ->persist($history);
-             $em ->flush();
-
-         }
         return $this->render('base.html.twig', [
             'selected_view' => 'form/index.html.twig',
-            'controller_name' => 'FormController',
-            'product_form' => $form ->createView()
+            'controller_name' => 'FormController'
         ]);
     }
 }

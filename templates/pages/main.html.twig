@@ -1,4 +1,9 @@
 <div class="main-page">
-    <h1>Strona główna</h1>
-    <div>Statstyki magazynu i historia operacji</div>
+    <h1>Homepage</h1>
+    <p>Welcome to warehouse mengement app!<br></p>
+    <p>Log in to see more.</p>
+    {% if is_granted('ROLE_ADMIN') %}
+        <h1>Warehouse stats and operation history.</h1>
+        {{ include('history/index.html.twig') }}
+    {% endif %}
 </div>

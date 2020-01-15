@@ -15,10 +15,6 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $freespace = $options['attr'];
-        var_dump($freespace);
-
-
         $builder
             ->add('barcode', IntegerType::class, [
                 'attr' =>[

@@ -3,11 +3,17 @@
 {% block title %}Edit Product{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <h1>Edit Product</h1>
+    <div class="col-4">
+        {{ include('products/_form.html.twig') }}
 
-    {{ include('products/_form.html.twig') }}
+        <a href="{{ path('products_index') }}"><button type="button" class="btn btn-dark mb-1">Back to list</button></a>
 
-    <a href="{{ path('products_index') }}"><button type="button" class="btn btn-dark mb-1">Back to list</button></a>
-
-    {{ include('products/_delete_form.html.twig') }}
+        {{ include('products/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

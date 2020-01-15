@@ -26,6 +26,7 @@ class PlaceFinderController extends AbstractController
     public function index(Request $request, \Swift_Mailer $mailer)
     {
 
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $warehousesRepository = $this->getDoctrine()
             ->getRepository(Warehouses::class);
 

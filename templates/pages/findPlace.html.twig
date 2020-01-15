@@ -1,27 +1,33 @@
-<div class="weather">
-    <h1>Znajdź miejsce</h1>
-    <div>Wolne miejsca znajdują się w:</div>
-    <div>
-        <table class="table table-dark">
-            <thead>
-            <tr>
-                <th scope="col">Magazyn</th>
-                <th scope="col">Rząd</th>
-                <th scope="col">Regał</th>
-                <th scope="col">Półka</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for shelf in freespace %}
-            <tr>
-                <td>{{ shelf['warehouse_id'] }}</td>
-                <td>{{ shelf['row_id'] }}</td>
-                <td>{{ shelf['rack_id'] }}</td>
-                <td>{{ shelf['shelf_id'] }}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+{% block body %}
+    <div class="findplace">
+        <h1>Find free place</h1>
+        <div>Free places available in:</div>
+        <div>
+            <table class="table table-dark" id="find-place-table">
+                <thead>
+                <tr>
+                    <th scope="col">Warehouse</th>
+                    <th scope="col">Row</th>
+                    <th scope="col">Rack</th>
+                    <th scope="col">Shelf</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for shelf in freespace %}
+                    <tr>
+                        <td>{{ shelf['warehouse_id'] }}</td>
+                        <td>{{ shelf['row_id'] }}</td>
+                        <td>{{ shelf['rack_id'] }}</td>
+                        <td>{{ shelf['shelf_id'] }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="10">No records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
+        </div>
     </div>
-</div>
+{% endblock %}

@@ -1,5 +1,5 @@
-<div class="out-page">
-    <h1>Stock out</h1>
+<div class="replace-page">
+    <h1>Swap goods</h1>
     <div class="col-4">
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">
@@ -13,7 +13,7 @@
         {% endfor %}
         {% form_theme form 'bootstrap_4_layout.html.twig' %}
         {{ form_start(form) }}
-            {{ form(form) }}
+        {{ form(form) }}
         {{ form_end(form) }}
     </div>
 </div>

@@ -10,7 +10,6 @@
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
             {#https://material.io/resources/icons/?style=baseline#}
             <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-            <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
             <link rel="stylesheet" href="{{ asset('build/app.css') }}"/>
         {% endblock %}
     </head>
@@ -25,6 +24,9 @@
                 </div>
             </div>
         {% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+            <script src="{{ asset('build/app.js') }}"></script>
+        {% endblock %}
     </body>
 </html>
