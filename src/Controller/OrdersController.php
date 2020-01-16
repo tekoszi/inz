@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\OrderItems;
 use App\Entity\Orders;
+use App\Form\OrderItemsType;
 use App\Form\OrdersType;
 use App\Repository\OrdersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,8 +22,11 @@ class OrdersController extends AbstractController
      */
     public function index(OrdersRepository $ordersRepository): Response
     {
-        return $this->render('orders/index.html.twig', [
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        return $this->render('base.html.twig', [
             'orders' => $ordersRepository->findAll(),
+            'userorders' => $ordersRepository->findBy(['user_id' => $user]),
+            'selected_view' => 'orders/index.html.twig'
         ]);
     }
 
@@ -32,7 +37,9 @@ class OrdersController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $order = new Orders();
+        $orderitem = new OrderItems();
         $form = $this->createForm(OrdersType::class, $order);
+        $form2 = $this->createForm(OrderItemsType::class, $orderitem);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -43,9 +50,11 @@ class OrdersController extends AbstractController
             return $this->redirectToRoute('orders_index');
         }
 
-        return $this->render('orders/new.html.twig', [
+        return $this->render('base.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
+            'form2' => $form2->createView(),
+            'selected_view' => 'orders/new.html.twig'
         ]);
     }
 
@@ -55,8 +64,12 @@ class OrdersController extends AbstractController
     public function show(Orders $order): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        return $this->render('orders/show.html.twig', [
+        $entityManager = $this->getDoctrine()->getManager();
+        $items = $entityManager->getRepository(OrderItems::class)->findBy(['order_id' => $order ->getId()]);
+        return $this->render('base.html.twig', [
             'order' => $order,
+            'items' => $items,
+            'selected_view' => 'orders/show.html.twig'
         ]);
     }
 
@@ -75,9 +88,10 @@ class OrdersController extends AbstractController
             return $this->redirectToRoute('orders_index');
         }
 
-        return $this->render('orders/edit.html.twig', [
+        return $this->render('base.html.twig', [
             'order' => $order,
             'form' => $form->createView(),
+            'selected_view' => 'orders/edit.html.twig'
         ]);
     }
 

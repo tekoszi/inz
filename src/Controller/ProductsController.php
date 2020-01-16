@@ -94,9 +94,18 @@ class ProductsController extends AbstractController
                     'placeholder' => 'Enter the barcode',
                     'class' => 'custom class'
                 ]))
-            ->add('name', TextType::class)
-            ->add('price', IntegerType::class)
-            ->add('quantity', IntegerType::class)
+            ->add('name', TextType::class,array(
+                'attr' =>[
+                    'placeholder' => 'Enter the name',
+                ]))
+            ->add('price', IntegerType::class,array(
+                'attr' =>[
+                    'placeholder' => 'Enter the price',
+                ]))
+            ->add('quantity', IntegerType::class,array(
+                'attr' =>[
+                    'placeholder' => 'Enter the quantity',
+                ]))
             ->add('location', ChoiceType::class,[
                 'choices'  => $array,
                 'label' => 'Location (Warehouse, Row, Rack, Shelf)'
@@ -188,7 +197,10 @@ class ProductsController extends AbstractController
                     'placeholder' => 'Enter the barcode'
                 ]
             ])
-            ->add('quantity', IntegerType::class)
+            ->add('quantity', IntegerType::class,array(
+                'attr' =>[
+                    'placeholder' => 'Enter the quantity',
+                ]))
 
             ->add('Confirm', SubmitType::class, [
                 'attr' =>[

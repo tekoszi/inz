@@ -1,11 +1,13 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}New Orders{% endblock %}
-
 {% block body %}
-    <h1>Create new Orders</h1>
+    <div class="col-4">
+        <h1>Create new Orders</h1>
 
-    {{ include('orders/_form.html.twig') }}
+        {{ include('orders/_form.html.twig') }}
 
-    <a href="{{ path('orders_index') }}">back to list</a>
+        <h5 class="mt-2">Add products:</h5>
+
+        {{ include('order_items/_form.html.twig') }}
+
+        <a href="{{ path('orders_index') }}"><button type="button" class="btn btn-dark mb-1 mt-1">Back to list</button></a>
+    </div>
 {% endblock %}

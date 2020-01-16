@@ -1,7 +1,9 @@
 <div class="main-page">
     <h1>Homepage</h1>
     <p>Welcome to warehouse mengement app!<br></p>
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
     <p>Log in to see more.</p>
+    {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
         <h1>Warehouse stats and operation history.</h1>
         {{ include('history/index.html.twig') }}

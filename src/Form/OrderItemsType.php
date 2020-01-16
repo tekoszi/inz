@@ -15,6 +15,7 @@ class OrderItemsType extends AbstractType
             ->add('order_id')
             ->add('product_id')
             ->add('quantity')
+            ->add('product_price')
         ;
     }
 

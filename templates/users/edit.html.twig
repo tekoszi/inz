@@ -4,10 +4,11 @@
 
 {% block body %}
     <h1>Edit Users</h1>
+    <div class="col-4">
+        {{ include('users/_form.html.twig', {'button_label': 'Update'}) }}
 
-    {{ include('users/_form.html.twig', {'button_label': 'Update'}) }}
+        <a href="{{ path('users_index') }}"><button type="button" class="btn btn-dark mb-1">Back to list</button></a>
 
-    <a href="{{ path('users_index') }}">back to list</a>
-
-    {{ include('users/_delete_form.html.twig') }}
+        {{ include('users/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

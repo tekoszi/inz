@@ -1,4 +1,16 @@
 <div class="out-page">
-    <h1>Administracja</h1>
-    <div>admin</div>
+    <h1>Administration</h1>
+    <div class="row">
+        <div class="col-6">{{ include('users/index.html.twig') }}</div>
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6">{{ include('warehouses/index.html.twig') }}</div>
+                <div class="col-6">{{ include('rows/index.html.twig') }}</div>
+            </div>
+            <div class="row">
+                <div class="col-6">{{ include('racks/index.html.twig') }}</div>
+                <div class="col-6">{{ include('shelfs/index.html.twig') }}</div>
+            </div>
+        </div>
+    </div>
 </div>

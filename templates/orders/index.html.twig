@@ -1,11 +1,13 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Orders index{% endblock %}
-
 {% block body %}
     <h1>Orders index</h1>
-
-    <table class="table">
+<div class="col-6">
+    {% if not is_granted('ROLE_ADMIN') and not is_granted('ROLE_USER')%}
+        <h5>Please log in to view your orders!</h5>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_USER')%}
+    <h5>Your orders:</h5>
+    <a href="{{ path('orders_new') }}"><button type="button" class="btn btn-dark mb-2">Create new</button></a>
+    <table class="table table-dark table-hover table-striped">
         <thead>
             <tr>
                 <th>Id</th>
@@ -16,15 +18,16 @@
             </tr>
         </thead>
         <tbody>
-        {% for order in orders %}
+        {% for order in userorders %}
             <tr>
                 <td>{{ order.id }}</td>
                 <td>{{ order.userId }}</td>
                 <td>{{ order.status }}</td>
                 <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('orders_show', {'id': order.id}) }}">show</a>
-                    <a href="{{ path('orders_edit', {'id': order.id}) }}">edit</a>
+                    <a href="{{ path('orders_show', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Show</button></a>
+                    <a href="{{ path('orders_edit', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>
+                    {{ include('orders/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -34,6 +37,39 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('orders_new') }}">Create new</a>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <h5>All orders:</h5>
+        <table class="table table-dark table-hover table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>User_id</th>
+                <th>Status</th>
+                <th>Created_at</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.userId }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <a href="{{ path('orders_show', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Show</button></a>
+                        <a href="{{ path('orders_edit', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>
+                        {{ include('orders/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
 {% endblock %}

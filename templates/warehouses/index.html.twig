@@ -1,16 +1,13 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Warehouses index{% endblock %}
-
 {% block body %}
-    <h1>Warehouses index</h1>
+    <h1>Warehouses</h1>
 
-    <table class="table">
+    <a href="{{ path('warehouses_new') }}"><button type="button" class="btn btn-dark mb-2">Create new</button></a>
+    <table class="table table-dark table-hover table-striped" id="warehouses-table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -19,8 +16,9 @@
                 <td>{{ warehouse.id }}</td>
                 <td>{{ warehouse.name }}</td>
                 <td>
-                    <a href="{{ path('warehouses_show', {'id': warehouse.id}) }}">show</a>
-                    <a href="{{ path('warehouses_edit', {'id': warehouse.id}) }}">edit</a>
+                    <a href="{{ path('warehouses_show', {'id': warehouse.id}) }}"><button type="button" class="btn btn-dark mb-1">Show</button></a>
+                    <a href="{{ path('warehouses_edit', {'id': warehouse.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>
+                    {{ include('warehouses/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -31,5 +29,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('warehouses_new') }}">Create new</a>
 {% endblock %}

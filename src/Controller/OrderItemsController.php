@@ -31,10 +31,10 @@ class OrderItemsController extends AbstractController
     public function new(Request $request): Response
     {
         $orderItem = new OrderItems();
-        $form = $this->createForm(OrderItemsType::class, $orderItem);
-        $form->handleRequest($request);
+        $form2 = $this->createForm(OrderItemsType::class, $orderItem);
+        $form2->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form2->isSubmitted() && $form2->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($orderItem);
             $entityManager->flush();
@@ -44,9 +44,10 @@ class OrderItemsController extends AbstractController
 
         return $this->render('order_items/new.html.twig', [
             'order_item' => $orderItem,
-            'form' => $form->createView(),
+            'form2' => $form2->createView(),
         ]);
     }
+
 
     /**
      * @Route("/{id}", name="order_items_show", methods={"GET"})
@@ -63,10 +64,10 @@ class OrderItemsController extends AbstractController
      */
     public function edit(Request $request, OrderItems $orderItem): Response
     {
-        $form = $this->createForm(OrderItemsType::class, $orderItem);
-        $form->handleRequest($request);
+        $form2 = $this->createForm(OrderItemsType::class, $orderItem);
+        $form2->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form2->isSubmitted() && $form2->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('order_items_index');
@@ -74,7 +75,7 @@ class OrderItemsController extends AbstractController
 
         return $this->render('order_items/edit.html.twig', [
             'order_item' => $orderItem,
-            'form' => $form->createView(),
+            'form2' => $form2->createView(),
         ]);
     }
 

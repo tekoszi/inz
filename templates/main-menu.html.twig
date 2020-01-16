@@ -3,8 +3,9 @@
 </i>
 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
     <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="/" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="material-icons pr-2">home</i>Homepage</a>
+    <a class="nav-link" id="v-pills-orders-tab" data-toggle="pill" href="/orders" role="tab" aria-controls="v-pills-in" aria-selected="true"><i class="material-icons">assignment</i> Orders</a>
     {% if is_granted('ROLE_ADMIN') %}
-        <a class="nav-link" id="v-pills-stockin-tab" data-toggle="pill" href="/products/in" role="tab" aria-controls="v-pills-in" aria-selected="true"><i class="material-icons">flight_land</i>Stock in</a>
+        <a class="nav-link" id="v-pills-stockin-tab" data-toggle="pill" href="/products/in" role="tab" aria-controls="v-pills-in" aria-selected="true"><i class="material-icons">flight_land</i> Stock in</a>
         <a class="nav-link" id="v-pills-stockout-tab" data-toggle="pill" href="/products/out" role="tab" aria-controls="v-pills-out" aria-selected="false"><i class="material-icons pr-2">flight_takeoff</i>Stock out</a>
         <a class="nav-link" id="v-pills-find-tab" data-toggle="pill" href="/findplace" role="tab" aria-controls="v-pills-find" aria-selected="true"><i class="material-icons pr-2">search</i>Find place</a>
         <a class="nav-link" id="v-pills-switch-tab" data-toggle="pill" href="/products/replace" role="tab" aria-controls="v-pills-switch" aria-selected="false"><i class="material-icons pr-2">cached</i>Swap places</a>

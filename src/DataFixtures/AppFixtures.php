@@ -30,6 +30,7 @@ class AppFixtures extends Fixture
         $user->setFullName('Admin');
         $user->setEmail('admin@admin.pl');
         $user->setRoles(['ROLE_ADMIN']);
+//        $user->setRoles(['ROLE_USER']);
         $user->setAddress('admin address');
         $user->setPassword($this->passwordEncoder->encodePassword($user, 'admin'));
         $manager->persist($user);

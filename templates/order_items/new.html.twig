@@ -3,9 +3,11 @@
 {% block title %}New OrderItems{% endblock %}
 
 {% block body %}
-    <h1>Create new OrderItems</h1>
+    <div class="col-4">
+        <h1>Create new OrderItems</h1>
 
-    {{ include('order_items/_form.html.twig') }}
+        {{ include('order_items/_form.html.twig') }}
 
-    <a href="{{ path('order_items_index') }}">back to list</a>
+        <a href="{{ path('order_items_index') }}">back to list</a>
+    </div>
 {% endblock %}
