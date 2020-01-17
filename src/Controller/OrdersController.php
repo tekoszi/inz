@@ -63,7 +63,6 @@ class OrdersController extends AbstractController
      */
     public function show(Orders $order): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $entityManager = $this->getDoctrine()->getManager();
         $items = $entityManager->getRepository(OrderItems::class)->findBy(['order_id' => $order ->getId()]);
         return $this->render('base.html.twig', [
@@ -80,7 +79,6 @@ class OrdersController extends AbstractController
     {
         $form = $this->createForm(OrdersType::class, $order);
         $form->handleRequest($request);
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();

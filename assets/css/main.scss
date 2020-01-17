@@ -24,7 +24,7 @@ body {
       color: white;
 
       &.active {
-        background-color: $first_color;
+        background-color: black;
       }
     }
   }
@@ -42,3 +42,16 @@ input{
   background-color: $third_color;
   color: white;
 }
+
+//#data-result{
+//  max-height: 600px
+//}
+//
+//#days-result{
+//  max-height: 700px
+//}
+
+#myChart{
+  max-height: 650px
+}
+

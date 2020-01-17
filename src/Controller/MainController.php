@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use function PHPSTORM_META\type;
 use Swift_Message;
 use App\Repository\HistoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,11 +25,22 @@ class MainController extends AbstractController
      */
     public function index(Request $request, \Swift_Mailer $mailer,HistoryRepository $historyRepository)
     {
-
+        $days = '';
+        $data = '';
+        for ($i = 0; $i <= 6; $i++) {
+            $days .= date('Y-m-d', strtotime('-'.$i.'days')).', ';
+            $test = $historyRepository->findbydate("'%".date('Y-m-d', strtotime('-'.$i.'days'))."%'");
+            $data .= $test[0]['count(*)'].', ';
+        }
+//        $days = '['.$days.']';
+//        $data = '['.$data.']';
+//        var_dump($days);
 
         return $this->render('base.html.twig', [
             'selected_view' => 'main-contener.html.twig',
             'history' => $historyRepository->findAll(),
+            'days' => $days,
+            'data' => $data
 
         ]);
     }

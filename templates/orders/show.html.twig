@@ -23,17 +23,17 @@
         </table>
 
         <a href="{{ path('orders_index') }}"><button type="button" class="btn btn-dark mb-1">Back to list</button></a>
-
+        {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('orders_edit', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>
 
         {{ include('orders/_delete_form.html.twig') }}
+        {% endif %}
 
         <h5 class="mt-5">Order details:</h5>
         <a href="{{ path('order_items_new') }}"><button type="button" class="btn btn-dark mb-2">Create new</button></a>
         <table class="table table-dark table-hover table-striped">
             <thead>
             <tr>
-                <th>Id</th>
                 <th>Order_id</th>
                 <th>Product_id</th>
                 <th>Quantity</th>
@@ -44,7 +44,6 @@
             <tbody>
             {% for order_item in items %}
                 <tr>
-                    <td>{{ order_item.id }}</td>
                     <td>{{ order_item.orderId }}</td>
                     <td>{{ order_item.productId }}</td>
                     <td>{{ order_item.quantity }}</td>

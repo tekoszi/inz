@@ -220,20 +220,30 @@ class ProductsController extends AbstractController
                 array_push($errors, 'Product could not be found.');
                 $this->addFlash('failure', 'Product could not be found!');
             }
-            $history = new History();
-            $history -> setOperationType('Stock out');
-            $history -> setProductName('testname');
-//            $history -> setProductName($product->getName());
-            $s = date('d/m/Y');
-            $date = date_create_from_format('d/m/Y', $s);
-            $date->getTimestamp();
-            $history -> setOperationDate($date);
-            $history -> setProductQuantity($data['quantity']);
-            foreach ($product as $productproperty) {
-                $entityManager->remove($productproperty);
+            else{
+                $history = new History();
+                $history -> setOperationType('Stock out');
+                $s = date('d/m/Y');
+                $date = date_create_from_format('d/m/Y', $s);
+                $date->getTimestamp();
+                $history -> setOperationDate($date);
+                $history -> setProductQuantity($data['quantity']);
+
+                foreach ($product as $productproperty) {
+                    if ($productproperty -> getQuantity()-$data['quantity']<=0){
+                        var_dump('zero');
+                        $entityManager->remove($productproperty);
+                    }
+                    $history -> setProductName($productproperty->getName());
+                    $productproperty -> setQuantity($productproperty -> getQuantity()-$data['quantity']);
+
+
+                }
+
+                $entityManager->persist($history);
+                $entityManager->flush();
             }
-            $entityManager->persist($history);
-            $entityManager->flush();
+
             if (empty($errors)){
 //                array_push($alerts, 'Operation successful');
                 $this->addFlash('success', 'Operation successfull!');

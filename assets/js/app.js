@@ -5,6 +5,7 @@ require('../css/main.scss');
 var $  = require( 'jquery' );
 require( 'datatables.net' );
 require( 'datatables.net-dt' );
+var Chart = require('chart.js');
 
 $(document).ready(function() {
 
@@ -51,4 +52,55 @@ $(document).ready(function() {
 
 });
 
+
 $.fn.dataTable.ext.classes.sPageButton = 'btn btn-dark';
+
+var data = $('#data-result').data('data');
+var days = $('#days-result').data('days');
+var datatab = data.split(",");
+var daystab = days.split(",");
+
+
+
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: daystab,
+        datasets: [{
+            label: 'Transactions per day',
+            data: datatab,
+            // data: [12, 19, 3, 5, 2, 3,],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(215, 154, 124, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(215, 154, 124, 1)',
+            ],
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                }
+            }]
+        },
+        maintainAspectRatio: false,
+    }
+});
+Chart.defaults.global.defaultFontSize = 17;

@@ -14,7 +14,7 @@
                 <th>User_id</th>
                 <th>Status</th>
                 <th>Created_at</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -26,8 +26,10 @@
                 <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('orders_show', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Show</button></a>
+                    {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('orders_edit', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>
                     {{ include('orders/_delete_form.html.twig') }}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -47,7 +49,7 @@
                 <th>User_id</th>
                 <th>Status</th>
                 <th>Created_at</th>
-                <th>actions</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>

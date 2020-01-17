@@ -20,6 +20,7 @@ class OrderItemsController extends AbstractController
      */
     public function index(OrderItemsRepository $orderItemsRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         return $this->render('order_items/index.html.twig', [
             'order_items' => $orderItemsRepository->findAll(),
         ]);

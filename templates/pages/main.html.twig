@@ -5,7 +5,15 @@
     <p>Log in to see more.</p>
     {% endif %}
     {% if is_granted('ROLE_ADMIN') %}
-        <h1>Warehouse stats and operation history.</h1>
-        {{ include('history/index.html.twig') }}
+        <div class="row">
+            <div class="col-6" id="data-result" data-data="{{ data }}">
+                <h1>Operation history:</h1>
+                {{ include('history/index.html.twig') }}
+            </div>
+            <div class="col-6" id="days-result" data-days="{{ days }}">
+                <h1>Warehouse stats:</h1>
+                <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
+        </div>
     {% endif %}
 </div>
