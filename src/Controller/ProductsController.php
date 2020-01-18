@@ -127,7 +127,7 @@ class ProductsController extends AbstractController
             $repository = $this->getDoctrine()->getRepository(Products::class);
             $productbartest = $repository->findBy(['barcode' => $data['barcode']]);
             if($productbartest){
-                array_push($errors, 'Operation faiel');
+                array_push($errors, 'Operation failed');
                 $this->addFlash('failure', 'Product with this barcode already exists!');
                 return $this->redirectToRoute('products_in');
             }

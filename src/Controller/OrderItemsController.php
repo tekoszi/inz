@@ -3,12 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\OrderItems;
+use App\Entity\Orders;
 use App\Form\OrderItemsType;
 use App\Repository\OrderItemsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 /**
  * @Route("/order/items")
@@ -31,16 +36,58 @@ class OrderItemsController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $errors = array();
+        $alerts = array();
+        $id = $request->query->all()['id'];
+//        var_dump($request->query->all()['id']);
         $orderItem = new OrderItems();
-        $form2 = $this->createForm(OrderItemsType::class, $orderItem);
-        $form2->handleRequest($request);
+//        $form2 = $this->createForm(OrderItemsType::class, $orderItem);
+//        $form2->handleRequest($request);
+        $form2 = $this->createFormBuilder()
+            ->add('orderid', IntegerType::class,array(
+                'disabled' => true,
+                'data' => $id,
+                'label' => 'Order Id',
+                'attr' =>[
+                    'class' => 'custom class'
+                ]))
+            ->add('productid', IntegerType::class,array(
+                'label' => 'Product Id',
+                'attr' =>[
+                    'placeholder' => 'Enter the product id',
+                ]))
+            ->add('quantity', IntegerType::class,array(
+                'attr' =>[
+                    'placeholder' => 'Enter the quantity',
+                ]))
+            ->add('productprice', IntegerType::class,array(
+                'label' => 'Product price',
+                'attr' =>[
+                    'placeholder' => 'Enter the product price',
+                ]))
 
+//            ->add('Save', SubmitType::class, [
+//                'attr' =>[
+//                    'placeholder' => 'Enter the barcode',
+//                    'class' => 'btn btn-dark mb-1'
+//                ]
+//            ])
+            ->getForm();
+            $form2->handleRequest($request);
         if ($form2->isSubmitted() && $form2->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $data = $form2->getData();
+            $orderItem -> setOrderId($id);
+            $orderItem -> setProductId($data['productid']);
+            $orderItem -> setQuantity($data['quantity']);
+            $orderItem -> setProductPrice($data['productprice']);
             $entityManager->persist($orderItem);
             $entityManager->flush();
-
-            return $this->redirectToRoute('order_items_index');
+            if (empty($errors)){
+//                array_push($alerts, 'Operation successful');
+                $this->addFlash('success', 'Operation successfull!');
+            }
+            return $this->redirectToRoute('orders_show', ['id' => $id]);
         }
 
         return $this->render('order_items/new.html.twig', [
@@ -85,12 +132,20 @@ class OrderItemsController extends AbstractController
      */
     public function delete(Request $request, OrderItems $orderItem): Response
     {
+
+        $id = $orderItem->getOrderId();
+        $errors = '';
         if ($this->isCsrfTokenValid('delete'.$orderItem->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            var_dump($id);
             $entityManager->remove($orderItem);
             $entityManager->flush();
+            if (empty($errors)){
+//                array_push($alerts, 'Operation successful');
+                $this->addFlash('success', 'Operation successfull!');
+            }
         }
 
-        return $this->redirectToRoute('order_items_index');
+        return $this->redirectToRoute('orders_show', ['id' => $id]);
     }
 }
