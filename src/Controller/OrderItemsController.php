@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -65,6 +66,9 @@ class OrderItemsController extends AbstractController
                 'attr' =>[
                     'placeholder' => 'Enter the product price',
                 ]))
+            ->add('token', HiddenType::class, [
+                'data' => 'abcdef',
+            ])
 
 //            ->add('Save', SubmitType::class, [
 //                'attr' =>[
@@ -114,11 +118,14 @@ class OrderItemsController extends AbstractController
     {
         $form2 = $this->createForm(OrderItemsType::class, $orderItem);
         $form2->handleRequest($request);
-
+        $id = $orderItem->getOrderId();
         if ($form2->isSubmitted() && $form2->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('order_items_index');
+            $errors = array();
+            if (empty($errors)){
+                $this->addFlash('success', 'Operation successfull!');
+            }
+            return $this->redirectToRoute('orders_show', ['id' => $id]);
         }
 
         return $this->render('order_items/edit.html.twig', [

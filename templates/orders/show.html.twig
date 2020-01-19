@@ -4,6 +4,8 @@
             {{ message }}
         </div>
     {% endfor %}
+
+    {% if app.user.id == order.userId %}
     <h1>Order</h1>
     <div class="col-6">
         <table class="table table-dark table-hover table-striped">
@@ -60,10 +62,16 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5">no records found</td>
+                    <td colspan="5">No records found</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+        {% if items  %}
+            {{ 'testifa' }}
+
+        {% endif %}
+
     </div>
+    {% endif %}
 {% endblock %}

@@ -328,6 +328,16 @@ class ProductsController extends AbstractController
 
                 $product1[0]->setShelfId($prod2she);
                 $product2[0]->setShelfId($prod1she);
+                $history = new History();
+                $history -> setOperationType('Products swaped');
+                $history -> setProductName(strval($product1[0] -> getBarcode().' swaped with '.strval($product1[0] -> getBarcode())));
+                $s = date('d/m/Y');
+                $date = date_create_from_format('d/m/Y', $s);
+                $date->getTimestamp();
+                $history -> setOperationDate($date);
+                $history -> setProductQuantity(1);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($history);
                 $entityManager->flush();
                 if (empty($errors)){
                     $this->addFlash('success', 'Operation successfull!');

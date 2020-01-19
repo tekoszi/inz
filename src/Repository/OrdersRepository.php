@@ -19,6 +19,19 @@ class OrdersRepository extends ServiceEntityRepository
         parent::__construct($registry, Orders::class);
     }
 
+    public function findorder($date)
+    {
+
+        $entityManager = $this->getEntityManager()->getConnection();
+
+        $sql = 'select * from orders where created_at like '.$date.';';
+        $stmt = $entityManager->prepare($sql);
+        $stmt->execute();
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAll();
+    }
+
     // /**
     //  * @return Orders[] Returns an array of Orders objects
     //  */

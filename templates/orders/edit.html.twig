@@ -3,12 +3,14 @@
 {% block title %}Edit Orders{% endblock %}
 
 {% block body %}
-    <h1>Edit Orders</h1>
-    <div class="col-4">
-    {{ include('orders/_form.html.twig', {'button_label': 'Update'}) }}
+    {% if app.user.id == order.userId %}
+        <h1>Edit Orders</h1>
+        <div class="col-4">
+        {{ include('orders/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('orders_index') }}"><button type="button" class="btn btn-dark mb-1 mt-1">Back to list</button></a>
+        <a href="{{ path('orders_index') }}"><button type="button" class="btn btn-dark mb-1 mt-1">Back to list</button></a>
 
-    {{ include('orders/_delete_form.html.twig') }}
-    </div>
+        {{ include('orders/_delete_form.html.twig') }}
+        </div>
+    {% endif %}
 {% endblock %}

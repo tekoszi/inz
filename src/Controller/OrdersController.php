@@ -4,10 +4,14 @@ namespace App\Controller;
 
 use App\Entity\OrderItems;
 use App\Entity\Orders;
+use App\Entity\History;
 use App\Form\OrderItemsType;
 use App\Form\OrdersType;
+use function PHPSTORM_META\type;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use App\Repository\OrdersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,15 +22,55 @@ use Symfony\Component\Routing\Annotation\Route;
 class OrdersController extends AbstractController
 {
     /**
-     * @Route("/", name="orders_index", methods={"GET"})
+     * @Route("/", name="orders_index", methods={"GET","POST"})
      */
-    public function index(OrdersRepository $ordersRepository): Response
+    public function index(OrdersRepository $ordersRepository,Request $request): Response
     {
+
+        $s = date('d/m/Y');
+        $date = date_create_from_format('d/m/Y', $s);
+        $date->getTimestamp();
+        $order = new Orders();
+        $orderitem = new OrderItems();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+//        $form = $this->createForm(OrdersType::class, $order);
+        $form = $this->createFormBuilder()
+
+            ->getForm();
+        $form2 = $this->createForm(OrderItemsType::class, $orderitem);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $order -> setUserId($user -> getId());
+            $order -> setStatus('New');
+            $order -> setCreatedAt($date);
+            $repository = $this->getDoctrine()->getRepository(Orders::class);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($order);
+            $entityManager->flush();
+            $dborder = $repository->findBy(['user_id' => $user -> getId(), 'status' => 'New', 'created_at' => $date]);
+            $id = $dborder[0] -> getId();
+            $history = new History();
+            $history -> setOperationType('New order');
+            $history -> setProductName('Order id: '.$id);
+            $s = date('d/m/Y');
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
+            $history -> setOperationDate($date);
+            $history -> setProductQuantity(1);
+            $entityManager->persist($history);
+            $entityManager->flush();
+
+
+
+            return $this->redirectToRoute('orders_show', ['id' => $id]);
+        }
         $user = $this->get('security.token_storage')->getToken()->getUser();
         return $this->render('base.html.twig', [
             'orders' => $ordersRepository->findAll(),
             'userorders' => $ordersRepository->findBy(['user_id' => $user]),
-            'selected_view' => 'orders/index.html.twig'
+            'selected_view' => 'orders/index.html.twig',
+            'form' => $form->createView(),
         ]);
     }
 
@@ -35,25 +79,9 @@ class OrdersController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $order = new Orders();
-        $orderitem = new OrderItems();
-        $form = $this->createForm(OrdersType::class, $order);
-        $form2 = $this->createForm(OrderItemsType::class, $orderitem);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($order);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('orders_index');
-        }
+//        adding new order was processed in orders/index
 
         return $this->render('base.html.twig', [
-            'order' => $order,
-            'form' => $form->createView(),
-            'form2' => $form2->createView(),
             'selected_view' => 'orders/new.html.twig'
         ]);
     }
@@ -82,8 +110,23 @@ class OrdersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('orders_index');
+            $id = $order -> getId();
+            $entityManager = $this->getDoctrine()->getManager();
+            $history = new History();
+            $history -> setOperationType('Order edited');
+            $history -> setProductName('Order id: '.$id);
+            $s = date('d/m/Y');
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
+            $history -> setOperationDate($date);
+            $history -> setProductQuantity(1);
+            $entityManager->persist($history);
+            $entityManager->flush();
+            $errors = '';
+            if (empty($errors)){
+                $this->addFlash('success', 'Operation successfull!');
+            }
+            return $this->redirectToRoute('orders_show', ['id' => $id]);
         }
 
         return $this->render('base.html.twig', [
@@ -101,8 +144,23 @@ class OrdersController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$order->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $id = $order -> getId();
             $entityManager->remove($order);
             $entityManager->flush();
+            $history = new History();
+            $history -> setOperationType('Order removed');
+            $history -> setProductName('Order id: '.$id);
+            $s = date('d/m/Y');
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
+            $history -> setOperationDate($date);
+            $history -> setProductQuantity(1);
+            $entityManager->persist($history);
+            $entityManager->flush();
+            $errors = '';
+            if (empty($errors)){
+                $this->addFlash('success', 'Operation successfull!');
+            }
         }
 
         return $this->redirectToRoute('orders_index');
