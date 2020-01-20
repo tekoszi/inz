@@ -87,15 +87,44 @@ class OrdersController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="orders_show", methods={"GET"})
+     * @Route("/{id}", name="orders_show", methods={"GET","POST"})
      */
-    public function show(Orders $order): Response
+    public function show(Request $request,Orders $order): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $items = $entityManager->getRepository(OrderItems::class)->findBy(['order_id' => $order ->getId()]);
+        $form = $this->createFormBuilder()
+            ->add('submit', SubmitType::class, [
+                'label' => 'Submit form',
+                'attr' =>[
+                    'class' => 'btn btn-dark mb-1'
+                ]
+            ])
+            ->getForm();
+        $id = $order->getId();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $order -> setStatus('Accepted');
+            $history = new History();
+            $history -> setOperationType('Order accepted');
+            $history -> setProductName('Order id: '.$id);
+            $s = date('d/m/Y');
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
+            $history -> setOperationDate($date);
+            $history -> setProductQuantity(1);
+            $entityManager->persist($history);
+            $entityManager->flush();
+            $errors = '';
+            if (empty($errors)){
+                $this->addFlash('success', 'Operation successfull!');
+            }
+            return $this->redirectToRoute('orders_show', ['id' => $id]);
+        }
         return $this->render('base.html.twig', [
             'order' => $order,
             'items' => $items,
+            'form' => $form->createView(),
             'selected_view' => 'orders/show.html.twig'
         ]);
     }
@@ -135,6 +164,7 @@ class OrdersController extends AbstractController
             'selected_view' => 'orders/edit.html.twig'
         ]);
     }
+
 
     /**
      * @Route("/{id}", name="orders_delete", methods={"DELETE"})

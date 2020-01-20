@@ -1,6 +1,8 @@
 <div class="main-page">
     <h1>Homepage</h1>
-    <p>Welcome to warehouse mengement app!<br></p>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    <p>Hi {{ app.user.getFullName()}}! Welcome to warehouse mengement app!<br></p>
+    {% endif %}
     {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
     <p>Log in to see more.</p>
     {% endif %}

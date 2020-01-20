@@ -3,7 +3,7 @@
 {% block title %}Edit Orders{% endblock %}
 
 {% block body %}
-    {% if app.user.id == order.userId %}
+    {% if app.user.id == order.userId  or app.user.id == 1%}
         <h1>Edit Orders</h1>
         <div class="col-4">
         {{ include('orders/_form.html.twig', {'button_label': 'Update'}) }}
@@ -12,5 +12,8 @@
 
         {{ include('orders/_delete_form.html.twig') }}
         </div>
+    {% else %}
+        <div class="mt-5">Access denied!</div>
+        <a href="{{ path('orders_index') }}"><button type="button" class="btn btn-dark mb-1 mt-1">Back to list</button></a>
     {% endif %}
 {% endblock %}
