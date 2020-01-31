@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit IssueConfirmation{% endblock %}
+
+{% block body %}
+    <h1>Edit IssueConfirmation</h1>
+
+    {{ include('issue_confirmation/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('issue_confirmation_index') }}">back to list</a>
+
+    {{ include('issue_confirmation/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ExternalOrders index{% endblock %}
+
+{% block body %}
+    <h1>ExternalOrders index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Barcode</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Customer_id</th>
+                {#<th>Products</th>#}
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for external_order in external_orders %}
+            <tr>
+                <td>{{ external_order.id }}</td>
+                <td>{{ external_order.barcode }}</td>
+                <td>{{ external_order.name }}</td>
+                <td>{{ external_order.price }}</td>
+                <td>{{ external_order.customerId }}</td>
+                {#<td>{{ external_order.products }}</td>#}
+                <td>
+                    <a href="{{ path('external_orders_show', {'id': external_order.id}) }}">show</a>
+                    <a href="{{ path('external_orders_edit', {'id': external_order.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('external_orders_new') }}">Create new</a>
+{% endblock %}

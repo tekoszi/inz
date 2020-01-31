@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IssueConfirmation index{% endblock %}
+
+{% block body %}
+    <h1>IssueConfirmation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Order_id</th>
+                <th>User_id</th>
+                <th>External_order_id</th>
+                <th>Quantity</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for issue_confirmation in issue_confirmations %}
+            <tr>
+                <td>{{ issue_confirmation.id }}</td>
+                <td>{{ issue_confirmation.orderId }}</td>
+                <td>{{ issue_confirmation.userId }}</td>
+                <td>{{ issue_confirmation.externalOrderId }}</td>
+                <td>{{ issue_confirmation.quantity }}</td>
+                <td>{{ issue_confirmation.status }}</td>
+                <td>{{ issue_confirmation.date ? issue_confirmation.date|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('issue_confirmation_show', {'id': issue_confirmation.id}) }}">show</a>
+                    <a href="{{ path('issue_confirmation_edit', {'id': issue_confirmation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('issue_confirmation_new') }}">Create new</a>
+{% endblock %}

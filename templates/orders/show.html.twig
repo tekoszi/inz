@@ -4,6 +4,11 @@
             {{ message }}
         </div>
     {% endfor %}
+    {% for message in app.flashes('failure') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     {% if app.user.id == order.userId or app.user.id == 1%}
     <h1>Order</h1>
     <div class="col-6">
@@ -42,7 +47,7 @@
                 <th>Order_id</th>
                 <th>Product_id</th>
                 <th>Quantity</th>
-                <th>Product price</th>
+                {#<th>Product price</th>#}
                 <th>Actions</th>
             </tr>
             </thead>
@@ -52,7 +57,7 @@
                     <td>{{ order_item.orderId }}</td>
                     <td>{{ order_item.productId }}</td>
                     <td>{{ order_item.quantity }}</td>
-                    <td>{{ order_item.productPrice }}</td>
+                    {#<td>{{ order_item.productPrice }}</td>#}
                     <td>
                         <a href="{{ path('order_items_show', {'id': order_item.id}) }}"><button type="button" class="btn btn-dark mb-1">Show</button></a>
                         <a href="{{ path('order_items_edit', {'id': order_item.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>
@@ -66,14 +71,16 @@
             {% endfor %}
             </tbody>
         </table>
-        {% if items  %}
-            {% form_theme form 'bootstrap_4_layout.html.twig' %}
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
-            {{ form_end(form) }}
-        {% else %}
-            <p class="mt-1">Add products to be able to submit your order!</p>
-        {% endif %}
+        {% if order.status != 'Completed' %}
+            {% if items %}
+                {% form_theme form 'bootstrap_4_layout.html.twig' %}
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                {{ form_end(form) }}
+            {% else %}
+                <p class="mt-1">Add products to be able to submit your order!</p>
+            {% endif %}
+         {% endif %}
     </div>
     {% else %}
         <div class="mt-5">Access denied!</div>

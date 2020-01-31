@@ -129,7 +129,8 @@ class ProductsController extends AbstractController
             if($productbartest){
                 array_push($errors, 'Operation failed');
                 $this->addFlash('failure', 'Product with this barcode already exists!');
-                return $this->redirectToRoute('products_in');
+//                return $this->redirectToRoute('products_in');
+                return $this->redirectToRoute('products_show', ['id' => $productbartest[0] -> getId()]);
             }
             $choice = explode(", ", $data['location']);
 

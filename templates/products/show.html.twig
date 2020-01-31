@@ -1,8 +1,15 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Product display{% endblock %}
-
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('failure') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
     <h1>Product</h1>
 
     <table class="table table-dark">
@@ -19,10 +26,10 @@
                 <th>Name</th>
                 <td>{{ product.name }}</td>
             </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ product.price }}</td>
-            </tr>
+            {#<tr>#}
+                {#<th>Price</th>#}
+                {#<td>{{ product.price }}</td>#}
+            {#</tr>#}
             <tr>
                 <th>Quantity</th>
                 <td>{{ product.quantity }}</td>

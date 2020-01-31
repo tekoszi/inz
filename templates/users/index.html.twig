@@ -1,3 +1,8 @@
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
 {% block body %}
     <h1>Users</h1>
             <div>

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}IssueConfirmation{% endblock %}
+
+{% block body %}
+    <h1>IssueConfirmation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ issue_confirmation.id }}</td>
+            </tr>
+            <tr>
+                <th>Order_id</th>
+                <td>{{ issue_confirmation.orderId }}</td>
+            </tr>
+            <tr>
+                <th>User_id</th>
+                <td>{{ issue_confirmation.userId }}</td>
+            </tr>
+            <tr>
+                <th>External_order_id</th>
+                <td>{{ issue_confirmation.externalOrderId }}</td>
+            </tr>
+            <tr>
+                <th>Quantity</th>
+                <td>{{ issue_confirmation.quantity }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ issue_confirmation.status }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ issue_confirmation.date ? issue_confirmation.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('issue_confirmation_index') }}">back to list</a>
+
+    <a href="{{ path('issue_confirmation_edit', {'id': issue_confirmation.id}) }}">edit</a>
+
+    {{ include('issue_confirmation/_delete_form.html.twig') }}
+{% endblock %}

@@ -13,7 +13,7 @@
                 <th>Order_id</th>
                 <th>Product_id</th>
                 <th>Quantity</th>
-                <th>Product price</th>
+                {#<th>Product price</th>#}
                 <th>Actions</th>
             </tr>
         </thead>
@@ -24,7 +24,7 @@
                 <td>{{ order_item.orderId }}</td>
                 <td>{{ order_item.productId }}</td>
                 <td>{{ order_item.quantity }}</td>
-                <td>{{ order_item.productPrice }}</td>
+                {#<td>{{ order_item.productPrice }}</td>#}
                 <td>
                     <a href="{{ path('order_items_show', {'id': order_item.id}) }}"><button type="button" class="btn btn-dark mb-1">Show</button></a>
                     <a href="{{ path('order_items_edit', {'id': order_item.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>

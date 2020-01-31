@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ExternalOrders{% endblock %}
+
+{% block body %}
+    <h1>ExternalOrders</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ external_order.id }}</td>
+            </tr>
+            <tr>
+                <th>Barcode</th>
+                <td>{{ external_order.barcode }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ external_order.name }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ external_order.price }}</td>
+            </tr>
+            <tr>
+                <th>Customer_id</th>
+                <td>{{ external_order.customerId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('external_orders_index') }}">back to list</a>
+
+    <a href="{{ path('external_orders_edit', {'id': external_order.id}) }}">edit</a>
+    <a href="{{ path('orders_index', {'id': external_order.id, 'customer_id': external_order.customerId}) }}">Create internal order</a>
+
+    {{ include('external_orders/_delete_form.html.twig') }}
+{% endblock %}

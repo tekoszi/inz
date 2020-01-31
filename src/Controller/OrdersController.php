@@ -26,6 +26,31 @@ class OrdersController extends AbstractController
      */
     public function index(OrdersRepository $ordersRepository,Request $request): Response
     {
+        $values = $request->query->all();
+        if(!empty($values['customer_id'])){
+            $entityManager = $this->getDoctrine()->getManager();
+            $s = date('d/m/Y');
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
+            $order = new Orders();
+            $order -> setUserId($values['customer_id']);
+            $order -> setStatus('New');
+            $order -> setCreatedAt($date);
+            $entityManager->persist($order);
+            $entityManager->flush();
+            $orderItem = new OrderItems();
+            $orderItem -> setOrderId($order->getId());
+            $orderItem -> setProductId(1);
+            $orderItem -> setQuantity(1);
+            $orderItem -> setProductPrice(1);
+            $entityManager->persist($orderItem);
+            $entityManager->flush();
+            $errors = '';
+            if (empty($errors)){
+                $this->addFlash('success', 'Operation successfull!');
+            }
+            return $this->redirectToRoute('orders_index');
+        }
 
         $s = date('d/m/Y');
         $date = date_create_from_format('d/m/Y', $s);
@@ -92,6 +117,15 @@ class OrdersController extends AbstractController
     public function show(Request $request,Orders $order): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $values = $request->query->all();
+        if(!empty($values['action'])){
+//            var_dump('elko');
+            $order -> setStatus('Issuing');
+            $entityManager->persist($order);
+            $entityManager->flush();
+            return $this->redirectToRoute('orders_show', ['id' => $order->getId()]);
+        }
+        $entityManager = $this->getDoctrine()->getManager();
         $items = $entityManager->getRepository(OrderItems::class)->findBy(['order_id' => $order ->getId()]);
         $form = $this->createFormBuilder()
             ->add('submit', SubmitType::class, [
@@ -104,7 +138,7 @@ class OrdersController extends AbstractController
         $id = $order->getId();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $order -> setStatus('Accepted');
+            $order -> setStatus('Completed');
             $history = new History();
             $history -> setOperationType('Order accepted');
             $history -> setProductName('Order id: '.$id);

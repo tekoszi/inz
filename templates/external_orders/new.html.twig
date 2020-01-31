@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New ExternalOrders{% endblock %}
+
+{% block body %}
+    <h1>Create new ExternalOrders</h1>
+
+    {{ include('external_orders/_form.html.twig') }}
+
+    <a href="{{ path('external_orders_index') }}">back to list</a>
+{% endblock %}

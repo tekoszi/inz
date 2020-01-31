@@ -38,10 +38,12 @@ class UsersController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
+            $errors = '';
+            if (empty($errors)){
+                $this->addFlash('success', 'Operation successfull!');
+            }
             return $this->redirectToRoute('users_index');
         }
-
         return $this->render('users/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),

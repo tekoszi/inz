@@ -33,6 +33,9 @@
                     <a href="{{ path('orders_show', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Show</button></a>
                     {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('orders_edit', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>
+                    {% if order.status == "New" %}
+                        <a href="{{ path('orders_show', {'id': order.id, 'action': 'issue'}) }}"><button type="button" class="btn btn-dark mb-1">To issue</button></a>
+                    {% endif %}
                     {{ include('orders/_delete_form.html.twig') }}
                     {% endif %}
                 </td>
@@ -67,6 +70,9 @@
                     <td>
                         <a href="{{ path('orders_show', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Show</button></a>
                         <a href="{{ path('orders_edit', {'id': order.id}) }}"><button type="button" class="btn btn-dark mb-1">Edit</button></a>
+                        {% if order.status == "New" %}
+                        <a href="{{ path('orders_show', {'id': order.id, 'action': 'issue'}) }}"><button type="button" class="btn btn-dark mb-1">To issue</button></a>
+                        {% endif %}
                         {{ include('orders/_delete_form.html.twig') }}
                     </td>
                 </tr>
