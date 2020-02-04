@@ -19,15 +19,19 @@
                     <td>{{ order.id }}</td>
                 </tr>
                 <tr>
-                    <th>User_id</th>
+                    <th>User id</th>
                     <td>{{ order.userId }}</td>
+                </tr>
+                <tr>
+                    <th>External order id</th>
+                    <td>{{ order.externalOrderId }}</td>
                 </tr>
                 <tr>
                     <th>Status</th>
                     <td>{{ order.status }}</td>
                 </tr>
                 <tr>
-                    <th>Created_at</th>
+                    <th>Created at</th>
                     <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 </tr>
             </tbody>

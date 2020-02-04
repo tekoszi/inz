@@ -41,6 +41,11 @@ class ExternalOrders
      */
     private $Products = [];
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $Status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,6 +107,18 @@ class ExternalOrders
     public function setProducts(array $Products): self
     {
         $this->Products = $Products;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->Status;
+    }
+
+    public function setStatus(?string $Status): self
+    {
+        $this->Status = $Status;
 
         return $this;
     }

@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
             $order->setCreatedAt($date);
             $manager->persist($order);
         }
-        // create 2 warehouses!
+        // create 1 warehouse!
         for ($i = 0; $i < 1; $i++) {
             $warehouse = new Warehouses();
             $warehouse->setName('Warehouse' . ($i + 1));

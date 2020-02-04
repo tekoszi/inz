@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\ExternalOrders;
+use App\Entity\Orders;
 use App\Form\ExternalOrdersType;
 use App\Repository\ExternalOrdersRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +21,8 @@ class ExternalOrdersController extends AbstractController
      */
     public function index(ExternalOrdersRepository $externalOrdersRepository): Response
     {
-        return $this->render('external_orders/index.html.twig', [
+        return $this->render('base.html.twig', [
+            'selected_view' => 'external_orders/index.html.twig',
             'external_orders' => $externalOrdersRepository->findAll(),
         ]);
     }
@@ -36,7 +38,7 @@ class ExternalOrdersController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $externalOrder -> setProducts(['7'=>213,'5'=>12]);
+            $externalOrder -> setProducts([''.mt_rand(1,50)=> [mt_rand(1,50),mt_rand(1,50)],''.mt_rand(1,50)=>[mt_rand(1,50),mt_rand(1,50)],''.mt_rand(1,50)=>[mt_rand(1,50),mt_rand(1,50)],''.mt_rand(1,50)=>[mt_rand(1,50),mt_rand(1,50)]]);
             $entityManager->persist($externalOrder);
             $entityManager->flush();
 
@@ -54,8 +56,12 @@ class ExternalOrdersController extends AbstractController
      */
     public function show(ExternalOrders $externalOrder): Response
     {
+        $entityManager = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getRepository(Orders::class);
+        $createdorder = $repository->findBy(['external_order_id' => $externalOrder->getId()]);
         return $this->render('external_orders/show.html.twig', [
             'external_order' => $externalOrder,
+            'created_order' => $createdorder,
         ]);
     }
 

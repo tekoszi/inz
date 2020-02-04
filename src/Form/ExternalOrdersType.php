@@ -18,6 +18,10 @@ class ExternalOrdersType extends AbstractType
             ->add('barcode')
             ->add('name')
             ->add('price')
+            ->add('status', TextType::class,array(
+                'data' => 'New'))
+//            ->add('products')
+            ->add('customer_id')
 
         ;
     }

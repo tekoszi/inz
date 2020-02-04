@@ -9,9 +9,9 @@ var Chart = require('chart.js');
 
 $(document).ready(function() {
 
-    $(document).ready(function() {
-        $('table').DataTable();
-    } );
+    // $(document).ready(function() {
+    //     $('table').DataTable();
+    // } );
     $('#history-table').DataTable({
         "order": [[ 4, "desc" ]],
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
@@ -19,7 +19,7 @@ $(document).ready(function() {
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
     });
     $('#products-table').DataTable({
-        "order": [[ 8, "asc" ]],
+        "order": [[ 0, "asc" ]],
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -43,6 +43,18 @@ $(document).ready(function() {
     });
     $('#shelfs-table').DataTable({
         "order": [[ 3, "asc" ]],
+        dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+    });
+    $('#allorders').DataTable({
+        "order": [[ 4, "desc" ]],
+        dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
+            "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+    });
+    $('#userorders').DataTable({
+        "order": [[ 4, "desc" ]],
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",

@@ -45,6 +45,14 @@ class ProductsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $repository = $this->getDoctrine()->getRepository(Products::class);
+            $productbartest = $repository->findBy(['barcode' => $product->getBarcode()]);
+            if($productbartest){
+                $this->addFlash('failure', 'Product with this barcode already exists!');
+//                return $this->redirectToRoute('products_in');
+                return $this->redirectToRoute('products_show', ['id' => $productbartest[0] -> getId()]);
+            }
             $history = new History();
             $history -> setOperationType('New stock');
             $history -> setProductName($product->getName());
@@ -127,7 +135,6 @@ class ProductsController extends AbstractController
             $repository = $this->getDoctrine()->getRepository(Products::class);
             $productbartest = $repository->findBy(['barcode' => $data['barcode']]);
             if($productbartest){
-                array_push($errors, 'Operation failed');
                 $this->addFlash('failure', 'Product with this barcode already exists!');
 //                return $this->redirectToRoute('products_in');
                 return $this->redirectToRoute('products_show', ['id' => $productbartest[0] -> getId()]);

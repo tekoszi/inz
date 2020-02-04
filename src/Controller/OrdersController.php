@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ExternalOrders;
 use App\Entity\OrderItems;
 use App\Entity\Orders;
 use App\Entity\History;
@@ -27,8 +28,13 @@ class OrdersController extends AbstractController
     public function index(OrdersRepository $ordersRepository,Request $request): Response
     {
         $values = $request->query->all();
+
         if(!empty($values['customer_id'])){
             $entityManager = $this->getDoctrine()->getManager();
+            $repository = $this->getDoctrine()->getRepository(ExternalOrders::class);
+            $externalorder = $repository ->find($values['id']);
+            $externalorder->setStatus('Internal order created');
+            $entityManager->persist($externalorder);
             $s = date('d/m/Y');
             $date = date_create_from_format('d/m/Y', $s);
             $date->getTimestamp();
@@ -36,14 +42,26 @@ class OrdersController extends AbstractController
             $order -> setUserId($values['customer_id']);
             $order -> setStatus('New');
             $order -> setCreatedAt($date);
+            $order -> setExternalOrderId($values['id']);
             $entityManager->persist($order);
             $entityManager->flush();
-            $orderItem = new OrderItems();
-            $orderItem -> setOrderId($order->getId());
-            $orderItem -> setProductId(1);
-            $orderItem -> setQuantity(1);
-            $orderItem -> setProductPrice(1);
-            $entityManager->persist($orderItem);
+            foreach ($values['products'] as $key => $value){
+                $orderItem = new OrderItems();
+                $orderItem -> setOrderId($order->getId());
+                $orderItem -> setProductId($key);
+                $orderItem -> setQuantity($value[0]);
+                $orderItem -> setProductPrice($value[1]);
+                $entityManager->persist($orderItem);
+            }
+            $history = new History();
+            $history -> setOperationType('Internal order created');
+            $history -> setProductName('Order id: '.$order->getId());
+            $s = date('d/m/Y');
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
+            $history -> setOperationDate($date);
+            $history -> setProductQuantity(1);
+            $entityManager->persist($history);
             $entityManager->flush();
             $errors = '';
             if (empty($errors)){
@@ -69,6 +87,7 @@ class OrdersController extends AbstractController
             $order -> setUserId($user -> getId());
             $order -> setStatus('New');
             $order -> setCreatedAt($date);
+            $order -> setExternalOrderId(-1);
             $repository = $this->getDoctrine()->getRepository(Orders::class);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($order);
@@ -119,7 +138,22 @@ class OrdersController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $values = $request->query->all();
         if(!empty($values['action'])){
-//            var_dump('elko');
+            if ($order->getExternalOrderId()!=-1){
+                $entityManager = $this->getDoctrine()->getManager();
+                $repository = $this->getDoctrine()->getRepository(ExternalOrders::class);
+                $externalorder = $repository ->find($order->getExternalOrderId());
+                $externalorder->setStatus('Issuing');
+                $entityManager->persist($externalorder);
+            }
+            $history = new History();
+            $history -> setOperationType('Order issuing');
+            $history -> setProductName('Order id: '.$order->getId());
+            $s = date('d/m/Y');
+            $date = date_create_from_format('d/m/Y', $s);
+            $date->getTimestamp();
+            $history -> setOperationDate($date);
+            $history -> setProductQuantity(1);
+            $entityManager->persist($history);
             $order -> setStatus('Issuing');
             $entityManager->persist($order);
             $entityManager->flush();
@@ -138,9 +172,14 @@ class OrdersController extends AbstractController
         $id = $order->getId();
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $repository = $this->getDoctrine()->getRepository(ExternalOrders::class);
+            $externalorder = $repository ->find($order->getExternalOrderId());
+            $externalorder->setStatus('Completed');
+            $entityManager->persist($externalorder);
             $order -> setStatus('Completed');
             $history = new History();
-            $history -> setOperationType('Order accepted');
+            $history -> setOperationType('Order completed');
             $history -> setProductName('Order id: '.$id);
             $s = date('d/m/Y');
             $date = date_create_from_format('d/m/Y', $s);

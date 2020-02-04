@@ -33,6 +33,11 @@ class Orders
      */
     private $created_at;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $external_order_id;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,6 +75,18 @@ class Orders
     public function setCreatedAt(\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getExternalOrderId(): ?int
+    {
+        return $this->external_order_id;
+    }
+
+    public function setExternalOrderId(int $external_order_id): self
+    {
+        $this->external_order_id = $external_order_id;
 
         return $this;
     }
