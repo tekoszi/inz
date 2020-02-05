@@ -8,24 +8,58 @@ require( 'datatables.net-dt' );
 var Chart = require('chart.js');
 
 $(document).ready(function() {
+    let currentDomain = window.location.pathname;
+    if (currentDomain == '/'){
+        $( "#v-pills-home-tab" ).addClass( "active" )
+    }
+    if (currentDomain == '/orders/'){
+        $( "#v-pills-orders-tab" ).addClass( "active" )
+    }
+    if (currentDomain == '/external/orders/'){
+        $( "#v-pills-external-orders-tab" ).addClass( "active" )
+    }
+    if (currentDomain == '/products/in'){
+        $( "#v-pills-stockin-tab" ).addClass( "active" )
+    }
+    if (currentDomain == '/products/out'){
+        $( "#v-pills-stockout-tab" ).addClass( "active" )
+    }
+    if (currentDomain == '/findplace'){
+        $( "#v-pills-find-tab" ).addClass( "active" )
+    }
+    if (currentDomain == '/products/replace'){
+        $( "#v-pills-switch-tab" ).addClass( "active" )
+    }
+    if (currentDomain == '/products/'){
+        $( "#v-pills-stock-tab" ).addClass( "active" )
+    }
+    if (currentDomain == '/contributors'){
+        $( "#v-pills-contributors-tab" ).addClass( "active" )
+    }
+    if (currentDomain == '/admin'){
+        $( "#v-pills-admin-tab" ).addClass( "active" )
+    }
 
-    // $(document).ready(function() {
-    //     $('table').DataTable();
-    // } );
+    $(document).ready(function() {
+        $('table').DataTable();
+    } );
     $('#history-table').DataTable({
         "order": [[ 4, "desc" ]],
+        colReorder: true,
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
     });
     $('#products-table').DataTable({
         "order": [[ 0, "asc" ]],
+        colReorder: true,
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
     });
     $('#find-place-table').DataTable({
         "order": [[ 3, "asc" ]],
+        colReorder: true,
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
@@ -37,31 +71,33 @@ $(document).ready(function() {
     });
     $('#racks-table').DataTable({
         "order": [[ 3, "asc" ]],
+        colReorder: true,
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",s
     });
     $('#shelfs-table').DataTable({
         "order": [[ 3, "asc" ]],
+        colReorder: true,
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
     });
     $('#allorders').DataTable({
-        "order": [[ 4, "desc" ]],
+        "order": [[ 3, "desc" ]],
+        colReorder: true,
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
     });
     $('#userorders').DataTable({
-        "order": [[ 4, "desc" ]],
+        "order": [[ 3, "desc" ]],
+        colReorder: true,
         dom: "<'row'<'col-sm-3'l><'col-sm-3'f><'col-sm-6'p>>" +
             "<'row'<'col-sm-12'tr>>" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
     });
     $( "select" ).addClass( "selectpicker" )
-
-
 });
 
 
